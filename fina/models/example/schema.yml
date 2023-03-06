@@ -1,0 +1,11 @@
+
+version: 2
+
+models:
+  - name: finance_first_model
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+
