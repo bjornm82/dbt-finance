@@ -5,7 +5,7 @@ models:
   - name: finance_first_model
     columns:
       - name: id
-        description: "The primary key for this table"
+        description: "ID of the finance table"
         tests:
           - unique
 
