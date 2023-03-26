@@ -1,0 +1,33 @@
+name: Running on tag
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        env:
+            ACCESS_TOKEN: '${{ secrets.ACCESS_TOKEN }}'
+      - name: Set env
+        run: echo "GITHUB_SHA_SHORT=$(git describe --tags --always)" >> $GITHUB_ENV
+      - name: Test
+        run: echo $GITHUB_SHA_SHORT
+      - name: Checkout dbt snowboard replace and push
+        run: |
+            git config --global user.email "${{secrets.EMAIL_ADDRESS}}"
+            git config --global user.name "bjornm82"
+            git config --global credential.helper cache
+            git clone https://bjornm82:${{secrets.ACCESS_TOKEN}}@github.com/bjornm82/dbt-snowboard
+            cd dbt-snowboard
+            sed -r -i "s/FINA_BRANCH','([0-9])+(.)+([0-9])+(.)+([0-9])+/FINA_BRANCH','$GITHUB_SHA_SHORT/g" snow/packages.yml
+            git add .
+            git commit -m "$(date)"
+            git push
+    outputs:
+      git-tag: ${{steps.set-git-tag.outputs.GIT_TAG}}
