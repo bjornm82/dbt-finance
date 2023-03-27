@@ -18,7 +18,7 @@ clean-targets:
 
 models:
   fina:
-    +database: postgres
+    +database: postgresql
     +schema: fina
     example:
       +materialized: view
