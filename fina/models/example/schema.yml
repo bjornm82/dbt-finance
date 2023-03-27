@@ -9,3 +9,10 @@ models:
         tests:
           - unique
 
+  - name: finance_second_model
+    columns:
+      - name: id
+        description: "ID of the finance table"
+        tests:
+          - unique
+

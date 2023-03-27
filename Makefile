@@ -28,4 +28,4 @@ dbt-clean:
 
 .PHONY: dbt-run
 dbt-run:
-	docker run --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest run
+	docker run --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest run --select state:modified --state=./
