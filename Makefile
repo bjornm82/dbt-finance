@@ -15,7 +15,7 @@ REPO?=snowboard
 IMAGE?=${HUB}/${REPO}
 
 VOLUME_PROFILE?=~/.dbt/profiles.yml:/root/.dbt/profiles.yml
-VOLUME_PROJECT?=$(PWD)/FINA:/usr/app/snow/dbt_packages/FINA
+VOLUME_PROJECT?=$(PWD)/fina:/usr/app/snow/dbt_packages/fina
 VOLUMES?=-v ${VOLUME_PROFILE} -v ${VOLUME_PROJECT}
 
 .PHONY: dbt-deps
