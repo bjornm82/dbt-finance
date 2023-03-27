@@ -18,7 +18,7 @@ clean-targets:
 
 models:
   fina:
-    +database: BJORN_TEST_UNIT
+    +database: fina
     example:
       +materialized: view
       +schema: finance
