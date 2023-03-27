@@ -18,7 +18,8 @@ clean-targets:
 
 models:
   fina:
-    +database: fina
+    +database: postgres
+    +schema: fina
     example:
       +materialized: view
       +schema: finance
