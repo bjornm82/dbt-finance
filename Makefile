@@ -10,7 +10,7 @@ DBT_VERSION?=latest
 PROJECT_VERSION?=prd
 VERSION=${DBT_VERSION}_${PROJECT_VERSION}
 
-HUB?=docker.for.mac.localhost:5001
+HUB?=bjornmooijekind
 REPO?=snowboard
 IMAGE?=${HUB}/${REPO}
 
@@ -20,20 +20,12 @@ VOLUMES?=-v ${VOLUME_PROFILE} -v ${VOLUME_PROJECT}
 
 .PHONY: dbt-deps
 dbt-deps:
-	docker run --rm -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:${VERSION} deps
-
-.PHONY: login
-login:
-	aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com
-
-.PHONY: dbt-init
-dbt-init:
-	docker run --rm ${VOLUMES} -e PROJECT_NAME=${PROJECT_NAME} -e ENV=${GIT_VERSION} -it ${IMAGE} init
+	docker run --rm -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest deps
 
 .PHONY: dbt-clean
 dbt-clean:
-	docker run --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE} clean
+	docker run --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest clean
 
 .PHONY: dbt-run
 dbt-run:
-	docker run --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:${VERSION} run
+	docker run --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest run
