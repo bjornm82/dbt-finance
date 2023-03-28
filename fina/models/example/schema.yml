@@ -3,6 +3,9 @@ version: 2
 
 models:
   - name: finance_first_model
+    config:
+      grants:
+        select: ['mark']
     columns:
       - name: id
         description: "ID of the finance table"
