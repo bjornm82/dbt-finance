@@ -11,21 +11,25 @@ PROJECT_VERSION?=prd
 VERSION=${DBT_VERSION}_${PROJECT_VERSION}
 
 HUB?=bjornmooijekind
-REPO?=snowboard
+REPO?=dbt-snowboard
 IMAGE?=${HUB}/${REPO}
 
 VOLUME_PROFILE?=~/.dbt/profiles.yml:/root/.dbt/profiles.yml
 VOLUME_PROJECT?=$(PWD)/fina:/usr/app/snow/dbt_packages/fina
 VOLUMES?=-v ${VOLUME_PROFILE} -v ${VOLUME_PROJECT}
 
+.PHONY: exec
+exec:
+	docker run --pull=always --rm ${VOLUMES} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest /bin/bash
+
 .PHONY: dbt-deps
 dbt-deps:
-	docker run --pull=always --rm -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest deps
+	docker run --pull=always --rm ${VOLUMES} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest dbt deps
 
 .PHONY: dbt-clean
 dbt-clean:
-	docker run --pull=always --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest clean
+	docker run --pull=always --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest dbt clean
 
 .PHONY: dbt-run
 dbt-run:
-	docker run --pull=always --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest run --select state:modified --state=./
+	docker run --pull=always --rm ${VOLUMES} -e ENV=${GIT_VERSION} -e PROJECT_NAME=${PROJECT_NAME} -it ${IMAGE}:latest dbt run --select state:modified --state=./

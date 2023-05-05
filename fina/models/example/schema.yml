@@ -11,3 +11,9 @@ models:
         description: "ID of the finance table"
         tests:
           - unique
+  - name: my_second_dep_model
+    columns:
+      - name: id
+        description: "ID of the finance table"
+        tests:
+          - unique

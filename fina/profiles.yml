@@ -1,0 +1,12 @@
+fina:
+  outputs:
+    dev:
+      type: postgres
+      threads: 1
+      host: docker.for.mac.localhost
+      port: 5432
+      user: postgres
+      pass: password
+      dbname: postgres
+      schema: public
+  target: dev
